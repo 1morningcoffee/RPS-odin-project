@@ -50,3 +50,20 @@ function playRound() {
         }
     }
 }
+
+// function to play the entire match, 5 rounds
+function playGame() {
+    for (let r = 0; r < 5; r++) {
+        playRound();
+    }
+    if (playerScore > computerScore) {
+        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". The player wins!!!");
+    } else if (computerScore > playerScore) {
+        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". The computer wins. Better luck next time");
+    } else {
+        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". It's a tie!!");
+    }
+}
+
+playGame();
+
