@@ -1,6 +1,6 @@
-let playerScore = 0;
+let pInput = '';
 let computerScore = 0;
-let round = 0;
+let playerScore = 0;
 
 // function to generate "rock", "paper", or "scissors"
 function getComputerChoice() {
@@ -14,56 +14,82 @@ function getComputerChoice() {
         }
 }
 
-// function to get human choice
-function getHumanChoice() {
-    let humanInput = prompt("Please enter rock, paper, or scissors: ").toLowerCase();
-    return humanInput;
-}
-
 // function to compare inputs and play the round
 function playRound() {
-    let pInput = getHumanChoice();
     let computerInput = getComputerChoice();
-    if (pInput !== "rock" && pInput !== "paper" && pInput !== "scissors") {
-        playRound();
-    } else {
-        if (pInput === computerInput) {
-            console.log("It is a tie round!");
-        } else if (pInput === "rock" && computerInput === "paper") {
-            console.log("Paper covers rock. The computer wins this round!");
-            computerScore++;
-        } else if (pInput === "rock" && computerInput === "scissors") {
-            console.log("Rock smashes scisors. The player wins this round!");
-            playerScore++;
-        } else if (pInput === "paper" && computerInput === "rock") {
-            console.log("Paper covers rock. The player wins this round!");
-            playerScore++;
-        } else if (pInput === "paper" && computerInput === "scissors") {
-            console.log("Scissors cut paper. The computer wins this round!");
-            computerScore++;
-        } else if (pInput === "scissors" && computerInput === "rock") {
-            console.log("Rock smashes scissors. The computer wins this round!");
-            computerScore++;
-        } else if (pInput === "scissors" && computerInput === "paper") {
-            console.log("Scissors cut paper. The player wins this round!");
-            playerScore++;
-        }
+
+    if (pInput === computerInput) {
+        roundResult.textContent = "It is a tie round!";
+    } else if (pInput === "rock" && computerInput === "paper") {
+        roundResult.textContent = 'Paper covers rock. The computer wins this round!';
+        computerScore++;
+        computerResult.textContent = 'Computer Score: ' + computerScore;
+    } else if (pInput === "rock" && computerInput === "scissors") {
+        roundResult.textContent = "Rock smashes scisors. The player wins this round!";
+        playerScore++;
+        playerResult.textContent = 'Player Score: ' + playerScore;
+    } else if (pInput === "paper" && computerInput === "rock") {
+        roundResult.textContent = "Paper covers rock. The player wins this round!";
+        playerScore++;
+        playerResult.textContent = 'Player Score: ' + playerScore;
+    } else if (pInput === "paper" && computerInput === "scissors") {
+        roundResult.textContent = "Scissors cut paper. The computer wins this round!";
+        computerScore++;
+        computerResult.textContent = 'Computer Score: ' + computerScore;
+    } else if (pInput === "scissors" && computerInput === "rock") {
+        roundResult.textContent = "Rock smashes scissors. The computer wins this round!";
+        computerScore++;
+        computerResult.textContent = 'Computer Score: ' + computerScore;
+    } else if (pInput === "scissors" && computerInput === "paper") {
+        roundResult.textContent = "Scissors cut paper. The player wins this round!";
+        playerScore++;
+        playerResult.textContent = 'Player Score: ' + playerScore;
     }
 }
 
-// function to play the entire match, 5 rounds
-function playGame() {
-    for (let r = 0; r < 5; r++) {
-        playRound();
-    }
-    if (playerScore > computerScore) {
-        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". The player wins!!!");
-    } else if (computerScore > playerScore) {
-        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". The computer wins. Better luck next time");
-    } else {
-        console.log("Player scored " + playerScore + ". The computer scored " + computerScore + ". It's a tie!!");
+// function to check player score
+function checkScore() {
+    if (playerResult.textContent === 'Player Score: 5') {
+        roundResult.textContent = 'The player has won the game! Please play again.'
+        playerResult.textContent = '';
+        computerResult.textContent = '';
+        playerScore = 0;
+        computerScore = 0;
+    } else if (computerResult.textContent === 'Computer Score: 5') {
+        roundResult.textContent = 'The computer has won this game. Better luck next time!';
+        computerResult.textContent = '';
+        playerResult.textContent = '';
+        computerScore = 0;
+        playerScore = 0;
     }
 }
 
-playGame();
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorsButton = document.querySelector('#scissors');
+const results = document.querySelector('#score');
+const roundResult = document.querySelector('#roundResultContainer');
+const playerResult = document.querySelector('#playerScoreContainer');
+const computerResult = document.querySelector('#computerScoreContainer');
 
+results.appendChild(playerResult);
+results.appendChild(computerResult);
+results.appendChild(roundResult);
+
+rockButton.addEventListener('click', () => {
+    pInput = 'rock';
+    playRound();
+    checkScore();
+});
+
+paperButton.addEventListener('click', () => {
+    pInput = 'paper';
+    playRound();
+    checkScore();
+});
+
+scissorsButton.addEventListener('click', () => {
+    pInput = 'scissors';
+    playRound();
+    checkScore();
+});
